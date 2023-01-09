@@ -24,7 +24,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['requester_user_id']))
         ];
     }
     if (!empty($_POST['selectedItilcategoriesId'])) {
-        $results = [['id'=>$_POST['selectedItilcategoriesId'],'text'=>$user_categories[$_POST['selectedItilcategoriesId']]]] + $results;
+
+        $result = [['id'=>$_POST['selectedItilcategoriesId'],'text'=>$user_categories[$_POST['selectedItilcategoriesId']]]];
+        
+        foreach($results as $res){
+            if(floatval($res["id"])!==floatval($_POST['selectedItilcategoriesId'])){
+                array_push($result,$res);
+            }
+        }
+        $results=$result;
     }
     if (count($results)) {
         echo json_encode($results);
